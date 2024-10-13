@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import ErrorPage from './pages/error-page';
 import Root from './routes/root';
-import MapAssistant from './routes/map-assistant';
+import MapAssistantRoute from './routes/map-assistant-route';
 
 import 'leaflet/dist/leaflet.css';
 import './index.css';
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/map-assistant',
-    element: <MapAssistant />,
+    element: <MapAssistantRoute />,
     errorElement: <ErrorPage />
   }
 ]);
