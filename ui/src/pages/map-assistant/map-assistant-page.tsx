@@ -3,29 +3,20 @@ import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 import AppLayout from '@/layouts/app-layout';
 
-import MapAssistantForm from './map-assistant-form';
-import MapChatForm from './map-chat-form';
+import ChatForm from './chat-form';
 
 export default function MapAssistantPage() {
-  const assistantFormRef = useRef<HTMLFormElement>(null);
   const chatFormRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!assistantFormRef.current || !chatFormRef.current) return;
+    if (!chatFormRef.current) return;
 
-    console.log('submitting form');
-
-    const assistantFormData = new FormData(assistantFormRef.current);
     const chatFormData = new FormData(chatFormRef.current);
 
     const data = {
-      assistantType: assistantFormData.get('assistant-type'),
-      conversationStyle: assistantFormData.get('conversation-style'),
-      searchRadius: assistantFormData.get('search-radius'),
-      poiLimit: assistantFormData.get('poi-limit'),
-      queryType: assistantFormData.get('query-type'),
-      question: assistantFormData.get('question'),
+      assistantType: chatFormData.get('assistant-type'),
+      conversationStyle: chatFormData.get('conversation-style'),
       message: chatFormData.get('message')
     };
 
@@ -35,11 +26,8 @@ export default function MapAssistantPage() {
   return (
     <AppLayout heading='Map AI Assistant'>
       <main className='grid flex-1 gap-4 overflow-auto p-4 md:grid-cols-2 lg:grid-cols-3'>
-        <div className='relative hidden flex-col items-start gap-8 md:flex'>
-          <MapAssistantForm
-            handleSubmit={handleSubmit}
-            ref={assistantFormRef}
-          />
+        <div className='relative hidden flex-col items-start gap-2 md:flex'>
+          <ChatForm handleSubmit={handleSubmit} ref={chatFormRef} />
         </div>
         <div className='relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2'>
           <div className='flex-1'>
@@ -60,7 +48,6 @@ export default function MapAssistantPage() {
               </Marker>
             </MapContainer>
           </div>
-          <MapChatForm handleSubmit={handleSubmit} ref={chatFormRef} />
         </div>
       </main>
     </AppLayout>

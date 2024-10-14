@@ -1,8 +1,15 @@
 import { forwardRef, type ForwardedRef } from 'react';
 
-import { Compass, MapPin, Search } from 'lucide-react';
+import {
+  Compass,
+  CornerDownLeft,
+  MapPin,
+  Mic,
+  Paperclip,
+  Search
+} from 'lucide-react';
 
-import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -12,20 +19,30 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@/components/ui/tooltip';
 
 interface Props {
   handleSubmit: (event: React.FormEvent) => void;
 }
 
-const MapAssistantForm = forwardRef(
-  (_: Props, ref: ForwardedRef<HTMLFormElement>) => {
+const ChatForm = forwardRef(
+  ({ handleSubmit }: Props, ref: ForwardedRef<HTMLFormElement>) => {
     return (
-      <form ref={ref} className='grid w-full items-start gap-6'>
-        <fieldset className='grid gap-6 rounded-lg border p-4'>
+      <form
+        ref={ref}
+        onSubmit={handleSubmit}
+        className='flex flex-col h-full w-full'
+      >
+        <fieldset className='flex-shrink-0 rounded-lg border p-4 mb-4'>
           <legend className='-ml-1 px-1 text-sm font-medium'>
             Assistant Settings
           </legend>
-          <div className='grid gap-3'>
+          <div className='grid gap-3 mb-4'>
             <Label htmlFor='assistant-type'>AI Assistant Type</Label>
             <Select name='assistant-type'>
               <SelectTrigger id='assistant-type' className='items-start'>
@@ -68,7 +85,7 @@ const MapAssistantForm = forwardRef(
               </SelectContent>
             </Select>
           </div>
-          <div className='grid gap-3'>
+          <div className='grid gap-3 mb-4'>
             <Label htmlFor='conversation-style'>Conversation Style</Label>
             <Select name='conversation-style'>
               <SelectTrigger id='conversation-style'>
@@ -81,50 +98,44 @@ const MapAssistantForm = forwardRef(
               </SelectContent>
             </Select>
           </div>
-          <div className='grid grid-cols-2 gap-4'>
-            <div className='grid gap-3'>
-              <Label htmlFor='search-radius'>Search Radius (km)</Label>
-              <Input
-                id='search-radius'
-                name='search-radius'
-                type='number'
-                placeholder='5'
-              />
-            </div>
-            <div className='grid gap-3'>
-              <Label htmlFor='poi-limit'>Points of Interest Limit</Label>
-              <Input
-                id='poi-limit'
-                name='poi-limit'
-                type='number'
-                placeholder='10'
-              />
-            </div>
-          </div>
         </fieldset>
-        <fieldset className='grid gap-6 rounded-lg border p-4'>
+        <fieldset className='flex flex-col flex-grow rounded-lg border p-4'>
           <legend className='-ml-1 px-1 text-sm font-medium'>Your Query</legend>
-          <div className='grid gap-3'>
-            <Label htmlFor='query-type'>Query Type</Label>
-            <Select defaultValue='general' name='query-type'>
-              <SelectTrigger>
-                <SelectValue placeholder='Select a query type' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value='general'>General Question</SelectItem>
-                <SelectItem value='directions'>Get Directions</SelectItem>
-                <SelectItem value='recommendations'>Recommendations</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className='grid gap-3'>
-            <Label htmlFor='question'>Your Question</Label>
-            <Textarea
-              id='question'
-              name='question'
-              placeholder='Ask about locations, attractions, or data on the map...'
-              className='min-h-[9.5rem]'
-            />
+
+          <Label htmlFor='message' className='sr-only'>
+            Message
+          </Label>
+          <Textarea
+            id='message'
+            name='message'
+            placeholder='Type your message here...'
+            className='min-h-12 h-full resize-none border-0 p-3 shadow-none focus-visible:ring-0'
+          />
+          <div className='flex items-center p-3 pt-0'>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant='ghost' size='icon'>
+                    <Paperclip className='size-4' />
+                    <span className='sr-only'>Attach file</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side='top'>Attach File</TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant='ghost' size='icon'>
+                    <Mic className='size-4' />
+                    <span className='sr-only'>Use Microphone</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side='top'>Use Microphone</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <Button type='submit' size='sm' className='ml-auto gap-1.5'>
+              Send Message
+              <CornerDownLeft className='size-3.5' />
+            </Button>
           </div>
         </fieldset>
       </form>
@@ -132,4 +143,4 @@ const MapAssistantForm = forwardRef(
   }
 );
 
-export default MapAssistantForm;
+export default ChatForm;
