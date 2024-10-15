@@ -8,10 +8,8 @@ AI MAP APP is a web application that leverages AI to provide various map-related
 
 ### Prerequisites
 
-- Node.js
-- npm or yarn
-- Python
-- Django
+- Node.js: v20.18.0
+- Python: 3.12
 
 ### Installation
 
