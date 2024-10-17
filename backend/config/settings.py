@@ -161,4 +161,23 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
-SITE_ID = 1 
+SITE_ID = 1
+
+# This backend prints out the emails in your console 
+# instead of sending real emails.
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+# Redirects for django-allauth
+# <EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
+
+EMAIL_CONFIRM_REDIRECT_BASE_URL = \
+    "http://localhost:3000/email/confirm/"
+
+# <PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL>/<uidb64>/<token>/
+
+PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = \
+    "http://localhost:3000/password-reset/confirm/"
